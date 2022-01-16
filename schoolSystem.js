@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 let studentCount = 0;
 class Admission{
     course = {
@@ -8,10 +10,13 @@ class Admission{
             secondaryCourseAmount : ''
         }
     }
-    constructor(name,courseName,secondCourse = ""){
-        this.name = name;
+
+
+    constructor(name="unnamed",courseName="basics",secondCourse = "", admissionNumber = studentCount){
+        this.name = name; 
         this.courseName = courseName
         this.secondCourse = secondCourse;
+        this.admissionNumber = admissionNumber
 
         if(this.courseName != ''){
             
@@ -48,35 +53,93 @@ class Admission{
 
     getStudentDetails(){
         if(this.secondCourse != ''){
-            console.log(`${this.name}'s Admission No is : ${studentCount} ; has Taken ${this.course.courseTaken} and ${this.course.secondaryCourses.secondaryCourseTaken} @ ${this.course.courseAmount} and ${this.course.secondaryCourses.secondaryCourseTaken} Respectively`)
+            let details = `${this.name}'s Roll Number is : ${studentCount} and Admission Number is ${this.admissionNumber} ; has Taken ${this.course.courseTaken} and ${this.course.secondaryCourses.secondaryCourseTaken} @ ${this.course.courseAmount} and ${this.course.secondaryCourses.secondaryCourseTaken} Respectively`
+            console.log(details);
+            return details
         }
         else if(this.courseName != ''){
-            console.log(`${this.name}'s Admission No is : ${studentCount} ; has Taken ${this.course.courseTaken} @ ${this.course.courseAmount}`);
+            let details = `${this.name}'s Roll Number is : ${studentCount} and Admission Number is ${this.admissionNumber} ; has Taken ${this.course.courseTaken} @ ${this.course.courseAmount}`
+            console.log(details);
+            return details
         }
     }
 
     getAdmissionNumber(){
-        console.log(`${this.name}'s Admission No is : ${studentCount}`)
+        console.log(`${this.name}'s Admission Number is : ${this.admissionNumber}`)
     }
     getCourseDetails(){
+        let details = ''
         if(this.secondCourse != ''){
-            console.log(`${this.name} Has Taken ${this.course.courseTaken} with ${this.course.secondaryCourses.secondaryCourseTaken} @ ${this.course.courseAmount} and ${this.course.secondaryCourses.secondaryCourseAmount} Respectively`);
+            details = `${this.name} Has Taken ${this.course.courseTaken} with ${this.course.secondaryCourses.secondaryCourseTaken} @ ${this.course.courseAmount} and ${this.course.secondaryCourses.secondaryCourseAmount} Respectively`
+            
         }
         else if(this.courseName != ''){
-            console.log(`${this.name} Has Taken ${this.course.courseTaken} @ ${this.course.courseAmount}`);
+            details = `${this.name} Has Taken ${this.course.courseTaken} @ ${this.course.courseAmount}`;
         }
+        console.log(details);
+        return details;
     }
+    getRollNo(){
+        console.log(`${this.name}'s Roll Number is ${studentCount}`)
+    }
+    saveDetails(){
+        let details = this.getCourseDetails()
+        console.log(details)
+        console.log(typeof details)
+        fs.appendFile("student details.txt", studentCount.toString() + ' ' + details + '\n' , (err) => {
+            if (err) throw err;
+            console.log("Completed!");
+        });
+    }
+    
 }
 
+admissionNumber = Math.floor(Math.random() * 2000 + studentCount)
+
+
 console.log("-----------------------------")
 
-let student1 = new Admission("aalim","web","c");
+let student1 = new Admission("aalim","web","c", admissionNumber + studentCount);
 student1.getStudentDetails()
+student1.saveDetails()
 
 console.log("-----------------------------")
 
-let student2 = new Admission("umaid", "c");
+let student2 = new Admission("umaid", "c","", admissionNumber + studentCount);
 student2.getStudentDetails()
+student2.saveDetails()
 
 console.log("-----------------------------")
 
+let student3 = new Admission("Shahid", "basics", "", admissionNumber + studentCount);
+student3.getStudentDetails()
+student3.saveDetails()
+
+console.log("-----------------------------")
+
+
+
+/*Admission Class Has Three Parameters Those are : 
+    name of the student ,  primary course , secondary course , and admission number gets generated automatically
+    
+    if There is no secondary Course leave it blank 
+
+    and it has 5 methods
+
+    one is getStudentDetails {
+        this method get all the details of a student
+    }
+    another one is getCourseDetails {
+        this method Gets all the details about the course
+    }
+    another one is getRollNo {
+        this one gets the roll number of a student
+    }
+    another one is getAdmission Number {
+        this one gets the Admission Number of a student      
+    }
+    last but not least one is saveDetails() {
+        this one saves the information provided in a file
+    }
+
+*/
