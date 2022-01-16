@@ -55,7 +55,7 @@ class Admission{
     getStudentDetails(){
         let details = ''
         if(this.secondCourse != ''){
-            details = `${this.name}'s Admission Number is ${this.admissionNumber} ; has Taken ${this.course.courseTaken} and ${this.course.secondaryCourses.secondaryCourseTaken} @ ${this.course.courseAmount} and ${this.course.secondaryCourses.secondaryCourseTaken} Respectively`
+            details = `${this.name}'s Admission Number is ${this.admissionNumber} ; has Taken ${this.course.courseTaken} and ${this.course.secondaryCourses.secondaryCourseTaken} @ ${this.course.courseAmount} and ${this.course.secondaryCourses.secondaryCourseAmount} Respectively`
             
         }
         else if(this.courseName != ''){
