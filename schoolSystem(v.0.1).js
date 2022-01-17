@@ -51,11 +51,13 @@ class Admission{
         }
         studentCount++;
     }
-
+    getStudentName(){
+        return this.name;   
+    }
     getStudentDetails(){
         let details = ''
         if(this.secondCourse != ''){
-            details = `${this.name}'s Admission Number is ${this.admissionNumber} ; has Taken ${this.course.courseTaken} and ${this.course.secondaryCourses.secondaryCourseTaken} @ ${this.course.courseAmount} and ${this.course.secondaryCourses.secondaryCourseAmount} Respectively`
+            details = `${this.name}'s Admission Number is ${this.admissionNumber} ; has Taken ${this.course.courseTaken} and ${this.course.secondaryCourses.secondaryCourseTaken} @ ${this.course.courseAmount} and ${this.course.secondaryCourses.secondaryCourseAmount} Respectively; Has admitted on ${new Date().getDate()}/${new Date().getMonth() + 1 }/${new Date().getFullYear()}`
             
         }
         else if(this.courseName != ''){
@@ -82,7 +84,9 @@ class Admission{
     }
     saveDetails(){
         let details = this.getStudentDetails()
-        fs.appendFile("student details.txt", '-->  ' + details + '\n' , (err) => {
+        let studentsName = this.getStudentName();
+        let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        fs.appendFile(studentsName + " " + new Date().toLocaleString('en-US', options) + new Date().getTime() +  " " +  ".txt", '-->  ' + details + '\n' , (err) => {
             if (err) throw err;
             console.log("Data Saved Sucessfully!");
         });
@@ -93,7 +97,7 @@ class Admission{
 
 console.log("-----------------------------")
 
-let student = new Admission("aalim","web","c", admissionNumbers + studentCount);
+let student = new Admission("Aalim","web","c", admissionNumbers + studentCount);
 student.saveDetails()
 
 console.log("-----------------------------")
